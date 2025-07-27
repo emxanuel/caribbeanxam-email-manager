@@ -62,11 +62,13 @@ export const sendEmailBulk = async (emails: string[], templateId: string, custom
       emails: mailRequests,
     });
     
-    const results: MailResponse[] = response.data;
+    // The API returns an object with results array, not just the results array
+    const responseData = response.data;
+    const results: MailResponse[] = responseData.results || [];
     
-    // Calculate success/failure counts
-    const totalSent = results.filter(result => result.success).length;
-    const totalFailed = results.filter(result => !result.success).length;
+    // Use the counts from the API response if available, otherwise calculate them
+    const totalSent = responseData.successful || results.filter(result => result.success).length;
+    const totalFailed = responseData.failed || results.filter(result => !result.success).length;
     
     return {
       results,
