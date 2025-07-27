@@ -94,7 +94,7 @@ export default function TemplateSelector({ selectedTemplate, onTemplateSelect }:
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          {templates.map((template) => (
+          {templates.slice(0,1).map((template) => (
             <div
               key={template.id}
               className={`p-4 border rounded-lg transition-all hover:shadow-md ${
@@ -133,8 +133,8 @@ export default function TemplateSelector({ selectedTemplate, onTemplateSelect }:
 
       {/* Preview Modal */}
       {previewTemplate && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        <div className="fixed inset-0 bg-black/70 h-screen flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[95vh] overflow-hidden flex flex-col">
             <div className="flex items-center justify-between p-4 border-b">
               <div>
                 <h3 className="text-lg font-semibold">{previewTemplate.name}</h3>
@@ -150,21 +150,21 @@ export default function TemplateSelector({ selectedTemplate, onTemplateSelect }:
               </Button>
             </div>
             
-            <div className="p-4 overflow-auto max-h-[calc(90vh-120px)]">
+            <div className="flex-1 p-4 overflow-auto">
               {isLoadingPreview ? (
                 <div className="flex items-center justify-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                   <span className="ml-2 text-gray-600">Cargando vista previa...</span>
                 </div>
               ) : (
-                <div className="border rounded-lg overflow-hidden shadow-sm">
+                <div className="border rounded-lg overflow-hidden shadow-sm h-full">
                   <div 
-                    className="bg-white max-w-full"
+                    className="bg-white w-full h-full overflow-auto"
                     style={{ 
-                      transform: 'scale(0.8)', 
+                      transform: 'scale(0.9)', 
                       transformOrigin: 'top center',
-                      maxWidth: '100%',
-                      overflow: 'hidden'
+                      width: '100%',
+                      minHeight: 'fit-content'
                     }}
                     dangerouslySetInnerHTML={{ __html: previewHtml }}
                   />
